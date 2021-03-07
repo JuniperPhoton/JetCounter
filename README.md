@@ -12,7 +12,7 @@ A timer app to help you setup a predefined timer and count down.
 
 ## Motivation and Context
 
-To make this timer app more friendly to use, the app use a visusal circle to display the remaining time.
+To make this timer app more friendly to use, the app use a visual circle to display the remaining time.
 
 
 ## Screenshots

@@ -122,6 +122,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 delay(1_000)
                 remainSec--
             }
+
+            resetValue()
         }
     }
 
@@ -216,7 +218,9 @@ fun MyApp(viewModel: MainViewModel) {
                     } else {
                         Button(
                             onClick = {
-                                viewModel.start()
+                                if (viewModel.totalSec > 0) {
+                                    viewModel.start()
+                                }
                             },
                             modifier = Modifier.width(150.dp)
                         ) {
