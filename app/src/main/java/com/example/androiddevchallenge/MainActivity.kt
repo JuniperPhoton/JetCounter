@@ -240,7 +240,8 @@ fun CountdownChoices(viewModel: MainViewModel) {
             onClick = {
                 viewModel.setTotalSec(min = it)
                 selectedMin.value = it
-            })
+            }
+        )
 
         ContentHorizontalSpacer()
 
@@ -250,7 +251,8 @@ fun CountdownChoices(viewModel: MainViewModel) {
             onClick = {
                 viewModel.setTotalSec(min = it)
                 selectedMin.value = it
-            })
+            }
+        )
 
         ContentHorizontalSpacer()
 
@@ -260,7 +262,8 @@ fun CountdownChoices(viewModel: MainViewModel) {
             onClick = {
                 viewModel.setTotalSec(min = it)
                 selectedMin.value = it
-            })
+            }
+        )
 
         ContentHorizontalSpacer()
 
@@ -270,22 +273,27 @@ fun CountdownChoices(viewModel: MainViewModel) {
             onClick = {
                 viewModel.setTotalSec(min = it)
                 selectedMin.value = it
-            })
+            }
+        )
     }
 }
 
 @Composable
 fun CountdownChoiceButton(selectedMin: Int, min: Int, onClick: (Int) -> Unit) {
     if (selectedMin == min) {
-        Button(onClick = {
-            onClick(min)
-        }) {
+        Button(
+            onClick = {
+                onClick(min)
+            }
+        ) {
             Text("$min MIN")
         }
     } else {
-        OutlinedButton(onClick = {
-            onClick(min)
-        }) {
+        OutlinedButton(
+            onClick = {
+                onClick(min)
+            }
+        ) {
             Text("$min MIN")
         }
     }
