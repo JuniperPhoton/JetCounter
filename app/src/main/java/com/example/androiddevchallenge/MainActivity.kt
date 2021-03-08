@@ -23,6 +23,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -108,7 +111,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setTotalSec(sec: Int = 0, min: Int = 0, hour: Int = 0) {
         totalSec = hour * 60 * 60 + min * 60 + sec
-        resetValue()
+        cancel()
     }
 
     fun start() {
@@ -240,17 +243,6 @@ fun CountdownChoices(viewModel: MainViewModel) {
 
         CountdownChoiceButton(
             selectedMin = selectedMin.value,
-            min = 60,
-            onClick = {
-                viewModel.setTotalSec(min = it)
-                selectedMin.value = it
-            }
-        )
-
-        ContentHorizontalSpacer()
-
-        CountdownChoiceButton(
-            selectedMin = selectedMin.value,
             min = 30,
             onClick = {
                 viewModel.setTotalSec(min = it)
@@ -274,6 +266,17 @@ fun CountdownChoices(viewModel: MainViewModel) {
         CountdownChoiceButton(
             selectedMin = selectedMin.value,
             min = 5,
+            onClick = {
+                viewModel.setTotalSec(min = it)
+                selectedMin.value = it
+            }
+        )
+
+        ContentHorizontalSpacer()
+
+        CountdownChoiceButton(
+            selectedMin = selectedMin.value,
+            min = 1,
             onClick = {
                 viewModel.setTotalSec(min = it)
                 selectedMin.value = it
@@ -318,7 +321,11 @@ fun CountdownCircle(info: CountdownInfo) {
     val ringColor = MaterialTheme.colors.primary
     val progressColor = MaterialTheme.colors.primaryVariant
     val strokeWidth = 30.dp.value
-    val sweepAngle = 360 * info.progress
+
+    val sweepAngle = animateFloatAsState(
+        targetValue = 360 * info.progress,
+        animationSpec = tween(durationMillis = 300, easing = FastOutLinearInEasing)
+    )
 
     Canvas(
         modifier = Modifier
@@ -331,7 +338,7 @@ fun CountdownCircle(info: CountdownInfo) {
             drawArc(
                 color = progressColor,
                 startAngle = -90f,
-                sweepAngle = sweepAngle,
+                sweepAngle = sweepAngle.value,
                 useCenter = false,
                 style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
             )
